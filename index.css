@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .header{
     display: flex;
     justify-content: space-between;
@@ -38,7 +42,13 @@
 }
 
 .search{
-    margin-bottom: 15px;
+    padding: 5px 2px;
+}
+
+.search-btn{
+    padding: 5px 5px;
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 .rest-container{
@@ -49,4 +59,202 @@
 .filter-btn{
     margin: 10px;
     padding: 5px 10px;
+    cursor: pointer;
+}
+.reset-filter-btn{
+    margin: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.login-btn{
+    padding: 7px 10px;
+    cursor: pointer;
+
+}
+.shimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shimmer-card{
+    width: 234px;
+    height: 350px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    border-radius: 3px;
+    margin: 40px 8px 8px 8px;
+    padding: 8px;
+    background-color: #cecdcd;
+}
+.menu-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.rest-name{
+    width:65%
+}
+.inner-menu-container{
+    background: linear-gradient(rgb(255, 255, 255) -6.71%, rgb(235, 235, 242) 56.19%, rgb(223, 223, 231) 106.56%);
+    padding: 0px 16px 16px 16px;
+    border-bottom-left-radius: 36px;
+    border-bottom-right-radius: 36px;
+}
+.menu{
+    margin: 10px;
+    padding: 10px 5px 5px 30px;
+
+    height: auto;
+    border-radius: 20px;
+    border: 1px solid rgba(2, 6, 12, 0.15);
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 8px 16px 0px;
+}
+.menu ul{
+    margin: 0px;
+    padding: 0px;
+}
+.menu ul li{
+    float: left;
+    padding: 0px 27px 0 0px;
+}
+.cusines{
+    text-align: left;
+    color: rgb(255, 82, 0);
+    width: 200px;
+    margin-top: 29px;
+    display: block;
+    font-weight: 600;
+}
+.outlet{
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width:5px;
+}
+.top-circle{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgb(196, 196, 196);
+}
+.mid-line{
+    width: 1px;
+    height: 23px;
+    background: rgb(196, 196, 196);
+}
+.bottom-circle{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgb(196, 196, 196);
+}
+.outlet-name{
+    display: flex;
+    margin-top: -62px;
+    margin-left: 10px;
+}
+.area-name{
+    color: rgba(2, 6, 12, 0.6);
+    margin-left:5px;
+}
+.maxtime{
+    display: flex;
+    margin-top: -11px;
+    margin-left: 10px;
+}
+.distance{
+    margin-bottom: 10px;
+}
+.recomm-item{
+    width: auto;
+}
+
+.recomm-item ul{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+.recomm-item ul li{
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 15px;
+    height: auto;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.75);
+}
+.price{
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    width: 100px;
+}
+.recomm-item ul li .price_strike{
+    text-decoration: line-through;
+    margin-right: 4px;
+    font-weight: 400;
+    color: rgba(2, 6, 12, 0.45);
+    width: 25px;
+    display: inline-block;
+
+}
+.recomm-item ul li .final_price{
+    text-decoration: none;
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.6);
+    width:25px;
+}
+.recomm-item ul li .description{
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.6);
+    width: 700px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.desc-wrap{
+    position: relative;
+}
+
+.item-logo{
+    border-radius: 15px;
+    width: 123px;
+    height: auto;
+    /* vertical-align: text-top; */
+    margin-top: -73px;
+    border:solid 1px #ebeaea;
+}
+.add_btn{
+    width: 110px;
+    position: absolute;
+    inset: 0px;
+    transition: 100ms ease-in-out;
+    transform: translateY(0px);
+    text-align: center;
+    left: 85.7%;
+    height: 30px;
+    top:20px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgb(27, 166, 114);
+    cursor: pointer;
+}
+.add_btn:hover{
+    background-color: #ebebeb;
 }

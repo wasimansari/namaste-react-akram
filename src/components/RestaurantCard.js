@@ -1,19 +1,21 @@
+import { cloudinary_Image_Path } from "../utils/constant";
 
 const RestaurantCard = (props) => {
     const { restObj } = props;
-    const {name,image,cuisine,rating}=restObj?.info;
+    const {name,cuisines,cloudinaryImageId,areaName,avgRating}=restObj?.info;
+
     return (
       <div className="rest-card">
         <img
           alt="rest-logo"
-          src={image.url}
+          src={cloudinary_Image_Path+cloudinaryImageId}
           className="rest-logo"
         />
         <h3>{name}</h3>
-        <h4>Rating : {rating.aggregate_rating}</h4>
-        <h4>Review : {rating.rating_subtitle}</h4>
+        <h4>Rating : {avgRating}</h4> 
+        <h4>Address : {areaName}</h4> 
         {
-          cuisine.map((item,index)=><span key={index}>{item.name}</span>)
+          cuisines.slice(0, 2).map((item,index)=><span key={index}>{item}</span>)
         }
       </div>
     );
