@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import ShimmerUi from "./ShimmerUI";
 import { restaurant_Card_API } from "../utils/constant";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
   const [topRestaurantData, setTopRestaurantData] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const onlineStatus = useOnlineStatus();
 
   useEffect(() => {
     fetchData();
@@ -29,13 +31,24 @@ const Body = () => {
   };
 
   searchData = () => {
-    const topRestaurant = topRestaurantData.filter((item) =>
-      item.info.cuisines.some(
-        (cuisine) => cuisine.toLowerCase() === searchText.toLowerCase()
-      )
-    );
-    setTopRestaurantData(topRestaurant);
+    if (searchText) {
+      const topRestaurant = topRestaurantData.filter((item) =>
+        item.info.cuisines.some(
+          (cuisine) => cuisine.toLowerCase() === searchText.toLowerCase()
+        )
+      );
+      if (topRestaurant?.length) {
+        setTopRestaurantData(topRestaurant);
+      } else {
+        alert("Searched Item Not Available");
+        setSearchText("");
+      }
+    } else {
+      alert("What item need to search ?");
+    }
   };
+
+  if(!onlineStatus) return <div>Check your internet connection!!</div>  
 
   return topRestaurantData.length === 0 ? (
     <ShimmerUi />
@@ -70,16 +83,11 @@ const Body = () => {
         </button>
       </div>
       <div className="rest-container">
-        {
-          topRestaurantData.map((foodItem) => (
-            <Link
-              key={foodItem.info.id}
-              to={"/restaurants/" + foodItem.info.id}
-            >
-              <RestaurantCard restObj={foodItem} />
-            </Link>
-          ))
-        }
+        {topRestaurantData.map((foodItem) => (
+          <Link key={foodItem.info.id} to={"/restaurants/" + foodItem.info.id}>
+            <RestaurantCard restObj={foodItem} />
+          </Link>
+        ))}
       </div>
     </div>
   );

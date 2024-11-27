@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 .header{
     display: flex;
@@ -189,6 +187,7 @@
     line-height: 20px;
     letter-spacing: -0.3px;
     color: rgba(2, 6, 12, 0.75);
+    border:solid 1px #ebebeb;
 }
 .price{
     font-size: 16px;
@@ -231,14 +230,13 @@
 
 .item-logo{
     border-radius: 15px;
-    width: 123px;
+    width: 121px;
     height: auto;
-    /* vertical-align: text-top; */
     margin-top: -73px;
     border:solid 1px #ebeaea;
 }
 .add_btn{
-    width: 110px;
+    width: 112px;
     position: absolute;
     inset: 0px;
     transition: 100ms ease-in-out;
@@ -257,4 +255,75 @@
 }
 .add_btn:hover{
     background-color: #ebebeb;
+}
+
+
+.restRolls{
+    width: auto;
+}
+
+.restRolls ul{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+.restRolls ul li{
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 15px;
+    height: auto;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.75);
+    border:solid 1px #ebebeb;
+}
+
+.restRolls ul li .price_strike{
+    text-decoration: line-through;
+    margin-right: 4px;
+    font-weight: 400;
+    color: rgba(2, 6, 12, 0.45);
+    width: auto;
+    display: inline-block;
+
+}
+.restRolls ul li .final_price{
+    text-decoration: none;
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.6);
+    width:25px;
+}
+.restRolls ul li .description{
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.6);
+    width: 700px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.online{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #06b706;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.offline{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #ff3030;
+    display: inline-block;
+    margin-left: 5px;
 }

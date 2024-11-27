@@ -4,97 +4,60 @@ import { useParams } from "react-router-dom";
 import { restaurant_API } from "../utils/constant";
 import { Accordion, AccordionItem } from "@szhsin/react-accordion";
 import { cloudinary_Image_Path } from "../utils/constant";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantHeadingDetail from "./RestaurantHeadingDetail";
+import RestRecommItem from "./RestRecommItem";
 
 const RestaurantMenu = () => {
-  const [restDetail, setRestDetail] = useState([]);
-  const [restItemDetails, setRestItemDetails] = useState([]);
-  // const [restItemDetails, setRestItemDetails] = useState([]);
+  let restHeading = [];
+  let recomItemList = [];
+  let restRolls = [];
   const { resId } = useParams();
-  let totalItem;
+  const resInfo = useRestaurantMenu(resId); //custome hook
 
-  useEffect(() => {
-    fetchRestaurantDetail();
-    return ()=>{
-      console.log("component will mount");
+  restHeading.push(resInfo?.data?.cards[2]?.card?.card?.info);
+
+  restRolls.push(
+    resInfo?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards[3]?.card
+      ?.card
+  );
+  if (
+    resInfo?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+      ?.card?.itemCards &&
+    resInfo?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+      ?.card?.itemCards.length > 0
+  ) {
+    recomItemList.push(
+      resInfo?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+        ?.card
+    );
+  } else {
+    recomItemList.push(
+      resInfo?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
+        ?.card
+    );
+    if(recomItemList[0]?.categories?.length > 0){
+      recomItemList=[];
+      resInfo?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
+        ?.card?.categories.forEach(item=>{
+          recomItemList.push(item); 
+        })
     }
-  }, []);
+  }
+  // console.log("Recommended List",recomItemList)
 
-  const fetchRestaurantDetail = async () => {
-    const data = await fetch(restaurant_API + resId);
-    const restaurantDetail = await data.json();
-
-    setRestDetail(restaurantDetail?.data?.cards[2]?.card?.card?.info);
-    if(restaurantDetail?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR
-        ?.cards[2]?.card?.card?.itemCards && restaurantDetail?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR
-        ?.cards[2]?.card?.card?.itemCards.length > 0){
-        setRestItemDetails(
-          restaurantDetail?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR
-            ?.cards[2]?.card?.card
-        );
-      }
-      else{
-        setRestItemDetails(
-          restaurantDetail?.data?.cards[4].groupedCard?.cardGroupMap?.REGULAR
-            ?.cards[1]?.card?.card
-        );
-      }
-  };
-  const {
-    name,
-    avgRating,
-    totalRatingsString,
-    costForTwoMessage,
-    cuisines,
-    areaName,
-    sla,
-    aggregatedDiscountInfo,
-  } = restDetail;
-
-  const { itemCards } = restItemDetails;
-
-
-  return restDetail.length === 0 ? (
+  return resInfo.length === 0 ? (
     <ShimmerUi />
   ) : (
     <div className="menu-container">
       <div className="rest-name">
-        <h1>{name}</h1>
-        <div className="inner-menu-container">
-          <div className="menu">
+        <h1>{restHeading[0].name}</h1>
+        <RestaurantHeadingDetail restHeadingDetails={restHeading[0]}/>
+        {/* <div className="recomm-item">
+          {recomItemList[0]?.itemCards?.length > 0 ? (
             <ul>
-              <li>
-                {avgRating} ({totalRatingsString})
-              </li>
-              <li>{costForTwoMessage}</li>
-            </ul>
-            <p className="cusines">{cuisines + "  "}</p>
-            <div className="outlet">
-              <div className="top-circle"></div>
-              <div className="mid-line"></div>
-              <div className="bottom-circle"></div>
-            </div>
-            <div className="outlet-name">
-              <h4>
-                Outlet<span className="area-name">{areaName}</span>
-              </h4>
-            </div>
-            <h4 className="maxtime">{sla.slaString.toLowerCase()}</h4>
-            <div className="distance">
-              {sla.lastMileTravelString} | {aggregatedDiscountInfo.header}
-            </div>
-          </div>
-        </div>
-        <div className="recomm-item">
-          {/* <h2>Recommended Item ({itemCards.length})</h2> */}
-          <h1 className="text-3xl font-bold underline">
-            Hello world!
-          </h1>
-          {
-            itemCards && itemCards.length > 0 ?(
-         
-            <ul>
-              {
-              itemCards.map((item) => (
+              <h2>Recommended Item ({recomItemList[0].itemCards.length})</h2>
+              {recomItemList[0].itemCards.map((item) => (
                 <li key={item.card.info.id}>
                   {item.card.info.name}
                   <div className="price">
@@ -123,14 +86,53 @@ const RestaurantMenu = () => {
                     <button className="add_btn">Add</button>
                   </div>
                 </li>
-              ))
-               
-            }
+              ))}
             </ul>
-          ):(
-            <h2>Recommended Item {itemCards.length}</h2>
-          )
-        }
+          ) : (
+            <h2>{recomItemList[0]?.itemCards?.length ? `Recommended Item ${recomItemList[0]?.itemCards?.length}`:""}</h2>
+          )}
+        </div> */}
+        <RestRecommItem recommItem={recomItemList[0]}/> 
+          <div className="restRolls">
+          {restRolls[0]?.itemCards?.length > 0 ? (
+            <ul>
+              <h2>
+            {restRolls[0].title} ({restRolls[0].itemCards.length})
+          </h2>
+              {restRolls[0].itemCards.map((item) => (
+                <li key={item.card.info.id}>
+                  {item.card.info.name}
+                  <div className="price">
+                    <p
+                      className={
+                        item.card.info.finalPrice ? "price_strike" : ""
+                      }
+                    >
+                      {item.card.info.price / 100}
+                    </p>
+                    <span className="final_price">
+                      {item.card.info.finalPrice
+                        ? item.card.info.finalPrice / 100
+                        : ""}
+                    </span>
+                  </div>
+                  <div className="desc-wrap">
+                    <span className="description">
+                      {item.card.info.description}
+                    </span>
+                    <img
+                      alt="item-logo"
+                      src={cloudinary_Image_Path + item.card.info.imageId}
+                      className="item-logo"
+                    />
+                    <button className="add_btn">Add</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <h2>{restRolls[0]?.itemCards?.length > 0 ?restRolls[0]?.title + `(${restRolls[0]?.itemCards?.length})` : " "}</h2>
+          )}
         </div>
       </div>
     </div>
