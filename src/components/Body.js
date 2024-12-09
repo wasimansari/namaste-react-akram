@@ -1,14 +1,19 @@
-import RestaurantCard from "./RestaurantCard";
-import { useEffect, useState } from "react";
+import RestaurantCard, {PromotedRestaurantCard} from "./RestaurantCard";
+import { useContext, useEffect, useState } from "react";
 import ShimmerUi from "./ShimmerUI";
 import { restaurant_Card_API } from "../utils/constant";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [topRestaurantData, setTopRestaurantData] = useState([]);
   const [searchText, setSearchText] = useState("");
   const onlineStatus = useOnlineStatus();
+
+  const {loggedInUser,setUserName} = useContext(UserContext);
+
+  const RestaurantCardPromoted = PromotedRestaurantCard(RestaurantCard);
 
   useEffect(() => {
     fetchData();
@@ -54,10 +59,10 @@ const Body = () => {
     <ShimmerUi />
   ) : (
     <div className="body-container">
-      <div className="filter">
+      <div className="filter m-4 p-4">
         <input
           type="text"
-          className="search"
+          className="enabled:border-gray-200 border rounded-md p-2 m-2"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
@@ -65,15 +70,15 @@ const Body = () => {
           placeholder="Search..."
         />
 
-        <button className="search-btn" onClick={searchData}>
+        <button className="p-2 m-2 bg-green-600 rounded-md border-r-0 text-white" onClick={searchData}>
           Search
         </button>
 
-        <button className="filter-btn" onClick={handleRating}>
+        <button className="p-2 m-2 bg-amber-600 rounded-md border-r-0 text-white" onClick={handleRating}>
           Top Rated
         </button>
         <button
-          className="reset-filter-btn"
+          className="p-2 m-2 bg-violet-400 rounded-md border-r-0 text-white"
           onClick={() => {
             setSearchText("");
             fetchData();
@@ -81,11 +86,18 @@ const Body = () => {
         >
           Reset Filter
         </button>
+        <label>User Name: </label>
+        <input type="text" className="border border-black" value={loggedInUser} 
+         onChange={(e)=>setUserName(e.target.value)} />
       </div>
-      <div className="rest-container">
+      <div className="flex flex-wrap">
         {topRestaurantData.map((foodItem) => (
           <Link key={foodItem.info.id} to={"/restaurants/" + foodItem.info.id}>
-            <RestaurantCard restObj={foodItem} />
+            {
+              
+              foodItem.info.avgRating > 4.3 ?(<RestaurantCardPromoted restObj={foodItem}/>) :(<RestaurantCard restObj={foodItem} />)
+            }
+            {/* <RestaurantCard restObj={foodItem} /> */}
           </Link>
         ))}
       </div>

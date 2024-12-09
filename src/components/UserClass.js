@@ -1,5 +1,6 @@
 import React from "react";
 import CardClass from "./CardClass";
+import UserContext from "../utils/UserContext";
 class UserClass extends React.Component{
     constructor(props){
         super(props)
@@ -22,6 +23,12 @@ class UserClass extends React.Component{
                 <h3>Name : {name}</h3>
                 <h4>Education : {education}</h4>
                 <h4>Address : {address}</h4>
+                <h4>
+                    userContext Data:
+                    <UserContext.Consumer>
+                        {(data)=>data.loggedInUser  }
+                    </UserContext.Consumer>
+                </h4>
                 <span>Count : {this.state.count}</span>
                 <button onClick={()=>{
                     this.setState({
